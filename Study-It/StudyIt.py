@@ -185,6 +185,7 @@ def winAPA():
 
 
 #----------------- VENTANA DICCIONARIO -----------------
+
 #Ventana de DICCIONARIO
 def winDic():
     def cerrar():
@@ -206,7 +207,9 @@ def winDic():
         #global evalue
         key = str(ekey.get())
         value = str(evalue.get())
-        df = pd.DataFrame({"palabra":[key], "definicion":[value]})
+        cat = str(ecat.get())
+
+        df = pd.DataFrame({"palabra":[key], "definicion":[value], "categoria": [cat]})
         x = x.append(df, ignore_index = True) 
         x.to_csv("proto2.csv", index = False)  
         ekey.delete(len(key))  
@@ -248,7 +251,7 @@ def winDic():
 
             displ.destroy()
             displ = Label(dic, text = (str(cont+1)+ "/" + str(len(x))))
-            displ.place(x= 660, y = 225 )
+            displ.place(x= 660, y = 0 )
         else:
             pass
 
@@ -269,7 +272,7 @@ def winDic():
 
             displ.destroy()
             displ = Label(dic, text = (str(cont+1)+ "/" + str(len(x))))
-            displ.place(x= 660, y = 225 )
+            displ.place(x= 660, y = 0 )
         else:
             pass
 
@@ -293,7 +296,7 @@ def winDic():
             global displ
             displ.destroy()
             displ = Label(dic, text = "Na/Na")
-            displ.place(x= 660, y = 225 )
+            displ.place(x= 660, y = 0 )
         
         else:
             pass
@@ -305,7 +308,6 @@ def winDic():
     dic.configure(bg="#1a1a1a")
     dic.geometry("1366x768")
 
-
     #Se crea boton de REGRESAR
     back = Button(dic, text = "Regresar", pady = 10, padx= 20, command = cerrar)
     back.configure(font = font_text)
@@ -313,7 +315,7 @@ def winDic():
 
     #Se crea el FRAME de la ventana DICCIONARIO
     framedic = LabelFrame(dic)
-    framedic.configure(bg= "#1a1a1a")
+    framedic.configure(bg= "#2c2c2c")
     framedic.pack(expand = True, fill = X)
 
     #Se inserta el TEXTO inicial en el FRAME
@@ -324,42 +326,56 @@ def winDic():
 
     #Se crea le BOTON SWITCH para cambiar entre palabra y definicion
     switch = Button(dic, text = "Switch", command = switchFun)
-    switch.place(x=665,y=647)
+    switch.configure(font = font_text)
+    #switch.place(x=665,y=647)
+    switch.pack(anchor = "center", pady = 10)
 
     #Se crea el BOTON NEXT para cambiar al siguiente indice
     nextb = Button(dic, text = ">>", command = nextFun)
-    nextb.place(x=745,y=647)
+    nextb.configure(font = font_text)
+    #nextb.place(x=745,y=647)
+    nextb.pack(anchor = E, pady = 10)
 
     #Se crea el BOTON PREV para cambiar al indice anterior
     prev = Button(dic, text = "<<", command = prevFun)
-    prev.place(x=615,y=647)
+    prev.configure(font = font_text)
+    prev.place(x=0,y=647)
 
     #Se crea el ENTRY para colocar la PALABRA
     #global ekey
     ekey = Entry(dic)
-    ekey.place(x=592, y=496)
+    #ekey.place(x=592, y=496)
+    ekey.pack(anchor = "center", pady = 10)
     ekey.insert(0, "Inserta tu palabra..." )
 
     #Se Crea el ENTRY para colocar la DEFINICION
     #global evalue
     evalue = Entry(dic)
-    evalue.place(x=592, y=543)
+    #evalue.place(x=592, y=543)
+    evalue.pack(anchor = "center", pady=10)
     evalue.insert(0, "Inserta tu definicion..." )
+
+    #Se crea el ENTRY para la CATEGORIA
+    ecat = Entry(dic)
+    ecat.pack(anchor="center")
+    ecat.insert(0, "Inserta tu categoria..." )
 
     #BOTON AGREGAR
     add = Button(dic, text = "Agregar", command = agregarFun)
-    add.place(x=665,y=597)
-
+    #add.place(x=665,y=597)
+    add.pack(anchor = "center", pady = 10)
+    add.configure(font = font_text)
 
     #BOTON CLEAR
     clear = Button(dic, text = "clear", command = clearFun)
-    clear.place(x=670,y=677)
-
+    #clear.place(x=670,y=677)
+    clear.pack(anchor="center", pady = 20)
+    clear.configure(font = font_text)
 
     #Se crea el DISPLAY
     global displ
     displ = Label(dic, text = "Na/Na")
-    displ.place(x= 660, y = 225 )
+    displ.place(x= 660, y = 0 )
 
 
 
