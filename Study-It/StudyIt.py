@@ -2,22 +2,21 @@ from tkinter import *
 import pandas as pd
 from tkinter import messagebox
 import matplotlib.pyplot as pt
+from ModulFonts import *
 
-#Estilos de fuente
-font_title = ("Helvetica", 30, " bold italic")
-font_text = ("Helvetica", 15, " bold")
-font_small = ("Helvetica", 7, " bold")
-font_text2 = ("Helvatica", 15)
+
+#-------------- Ventana Estadisticas ----------------
+df = pd.read_csv("proto3.csv")
+x = pd.read_csv("proto2.csv")
 
 def graficarTipo():
     global df    
-    df = pd.read_csv("proto3.csv")
+    
     GrafTipoAPA = df[df["TipodeCita"]=="APA"]
     GrafTipoMLA = df[df["TipodeCita"]=="MLA"]
     GraficaAPA = len(GrafTipoAPA)
     GraficaMLA = len(GrafTipoMLA)
-    print(GrafTipoAPA)
-    print(GrafTipoMLA)
+
     fig, ax = pt.subplots()
     ax.set_ylabel("Cantidad")
     ax.set_xlabel("Tipo de Cita")
@@ -27,39 +26,43 @@ def graficarTipo():
     
 def graficarAnio():
     global df    
-    df = pd.read_csv("proto3.csv")
-    GrafAnio = df["Anio"].value_counts()
-    df.groupby(GrafAnio["Anio"]).plot(kind = "line", title="Grafica por Año", xlabel="Años", ylabel="Cantidad")
+    df["Anio"].value_counts().plot(kind = "bar")
     pt.show()
+   
+
+def graficaDic():
+    global x
+    x["categoria"].value_counts().plot(kind= "bar")
+    pt.show()
+    
+
 
     
 def winEstadistica():
     estadistic = Toplevel()
     estadistic.configure(bg="#1a1a1a")
     estadistic.geometry("500x500")
+
     #Boton de Graficar Citas por Tipo
     citasTipo = Button(estadistic, text = "Graficar Citas por Tipo", pady = 10, padx= 20, command=graficarTipo)
     citasTipo.configure(font = font_text)
     citasTipo.place(x=20,y=50)
+
     #Boton de Graficar Citas por Año
-    citasTipo = Button(estadistic, text = "Graficar Citas por Año", pady = 10, padx= 20, command=graficarAnio)
-    citasTipo.configure(font = font_text)
-    citasTipo.place(x=20,y=200)
+    citasAno = Button(estadistic, text = "Graficar Citas por Año", pady = 10, padx= 20, command=graficarAnio)
+    citasAno.configure(font = font_text)
+    citasAno.place(x=20,y=200)
+
     #Boton de Graficar Diccionario por Categoria
-    citasTipo = Button(estadistic, text = "Graficar Diccionario por Categoría", pady = 10, padx= 20)
-    citasTipo.configure(font = font_text)
-    citasTipo.place(x=20,y=350)
+    citasCat = Button(estadistic, text = "Graficar Diccionario por Categoría", pady = 10, padx= 20, command= graficaDic)
+    citasCat.configure(font = font_text)
+    citasCat.place(x=20,y=350)
+
+
     
-#Boton info
-def winInfo():
-    # Se Crea la ventana INnfo
-    info = Toplevel()
-    info.configure(bg="#1a1a1a")
-    info.geometry("300x200")
-    #label
-    text1 = Label(info, text = "Creadores:\nBryan España - 21550,\nGustavo Gonzales - 21438,\nDiego Valdez - 21328,\nDiego Lemus - 21469\n\n\n Agenda universitaria", bg="#1a1a1a", fg="white")
-    text1.configure(font = font_text2)
-    text1.place(x=20,y=10)
+
+
+    
 #-----------------Ventana Normas APA---------------   
 def winAPA():
     #Abrir el CSV 
@@ -195,7 +198,7 @@ def winDic():
     global x
     global cont
     global condicion
-    x = pd.read_csv("proto2.csv")
+    # x = pd.read_csv("proto2.csv")
     cont = -1
     condicion = True
     
@@ -339,7 +342,7 @@ def winDic():
     #Se crea el BOTON PREV para cambiar al indice anterior
     prev = Button(dic, text = "<<", command = prevFun)
     prev.configure(font = font_text)
-    prev.place(x=0,y=647)
+    prev.place(x=0,y=470)
 
     #Se crea el ENTRY para colocar la PALABRA
     #global ekey
@@ -425,6 +428,18 @@ def winAgenda():
         
 #----------------- PAGINA PRINCIPAL -----------------
 
+#Boton info
+def winInfo():
+    # Se Crea la ventana INnfo
+    info = Toplevel()
+    info.configure(bg="#1a1a1a")
+    info.geometry("300x200")
+    #label
+    text1 = Label(info, text = "Creadores:\nBryan España - 21550,\nGustavo Gonzales - 21438,\nDiego Valdez - 21328,\nDiego Lemus - 21469\n\n\n Agenda Universitaria", bg="#1a1a1a", fg="white")
+    text1.configure(font = font_text2)
+    #text1.place(x=20,y=10)
+    text1.pack(anchor = "center")
+
 #Se crea la ventana principal
 root = Tk(className = "    Study It    ")
 root.configure(bg="#1a1a1a")
@@ -437,6 +452,11 @@ def cerrar():
 frame = LabelFrame(root, padx = 40, pady = 20)
 frame.configure(bg= "#2c2c2c")
 frame.pack(expand = True, fill = "y", anchor = "w")
+
+#LABEL texto de Bienvenida
+bienbv = Label(root, text = "Bienvenido a Study-It\n¡Tu Agenda Virtual Universitaria!", bg="#1a1a1a", fg="white", font=("Helvatica", 40))
+bienbv.place(x=400,y=300)
+
 
 #Titulo
 label = Label(frame, text = "Study It", bg = "#2c2c2c" , fg = "white", pady = 40)
